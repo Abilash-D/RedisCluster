@@ -1,4 +1,4 @@
-package io.github.truongbn.redistestcontainers.CacheManager;
+package com.abilash.bofa.POCForRedis.CacheManager;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;
@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 @EnableCaching
 public class CacheManagerImp {
 
+    //common confiuration if we intend to use annotations instead of CacheLoaderClass
     @Bean
     public CacheManager caffeineCacheManager() {
         CaffeineCacheManager manager = new CaffeineCacheManager("localCache", "nearCache");

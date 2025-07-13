@@ -1,4 +1,4 @@
-package io.github.truongbn.redistestcontainers.config;
+package com.abilash.bofa.POCForRedis.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

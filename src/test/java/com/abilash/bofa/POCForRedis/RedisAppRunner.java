@@ -1,11 +1,11 @@
-package io.github.truongbn.redistestcontainers;
+package com.abilash.bofa.POCForRedis;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
-import io.github.truongbn.redistestcontainers.config.LocalRedisInitializer;
+import com.abilash.bofa.POCForRedis.config.LocalRedisInitializer;
 
 @SpringBootTest
 @ComponentScan(basePackages = "io.github.truongbn.redistestcontainers")

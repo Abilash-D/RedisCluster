@@ -1,4 +1,4 @@
-package io.github.truongbn.redistestcontainers.config;
+package com.abilash.bofa.POCForRedis.config;
 
 import java.time.Duration;
 import java.util.List;

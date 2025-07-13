@@ -1,4 +1,4 @@
-package io.github.truongbn.redistestcontainers;
+package com.abilash.bofa.POCForRedis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

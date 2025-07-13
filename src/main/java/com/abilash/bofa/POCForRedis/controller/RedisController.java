@@ -1,10 +1,8 @@
-package io.github.truongbn.redistestcontainers.controller;
+package com.abilash.bofa.POCForRedis.controller;
 
 import java.time.Duration;
-import java.util.UUID;
 
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import com.abilash.bofa.POCForRedis.CacheSchemes.CacheSchemesImp;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +14,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/redis")
 @RequiredArgsConstructor
 public class RedisController {
+
+    private final CacheSchemesImp cacheSchemesImp;
     private final RedisTemplate<String, String> redisTemplate;
+
     @GetMapping(path = "/object/{key}", produces = MediaType.TEXT_PLAIN_VALUE)
     public String getObject(@PathVariable("key") String key) {
         return redisTemplate.opsForValue().get(key);
@@ -42,45 +43,39 @@ public class RedisController {
     //redis differnt scheme implementation
 
     // Simulates local cache (no Redis involved)
-    @Cacheable(cacheNames = "localCache", key = "#key")
     @GetMapping("/local/{key}")
     public String getFromLocalCache(@PathVariable String key) {
-        return "GeneratedLocalValue-" + UUID.randomUUID();
+        return cacheSchemesImp.getFromLocalCache(key);
     }
 
     // Simulates near cache (Caffeine first, Redis fallback)
-    @Cacheable(cacheNames = "nearCache", key = "#key")
     @GetMapping("/near/{key}")
     public String getNearCache(@PathVariable String key) {
-        return redisTemplate.opsForValue().get(key);
+        return cacheSchemesImp.getFromNearCache(key);
     }
 
-    @CachePut(cacheNames = "nearCache", key = "#key")
     @PostMapping("/near")
     public String putNearCache(@RequestParam String key, @RequestParam String value) {
-        redisTemplate.opsForValue().set(key, value, Duration.ofMinutes(10));
+        cacheSchemesImp.putNearCache(key,value);
         return value;
     }
 
     // Simulates replicated cache (write to all manually)
     @PostMapping("/replicated")
     public String putReplicated(@RequestParam String key, @RequestParam String value) {
-        redisTemplate.opsForValue().set(key + ":node1", value);
-        redisTemplate.opsForValue().set(key + ":node2", value);
-        redisTemplate.opsForValue().set(key + ":node3", value);
-        return "Replicated";
+        //this implementations cant be done
+        return "Replicated cant be done dynamically in redis!!!";
     }
 
     // Distributed cache already works via default RedisTemplate
     @PostMapping("/distributed")
     public String putDistributed(@RequestParam String key, @RequestParam String value) {
-        redisTemplate.opsForValue().set(key, value);
-        return "Distributed key written";
+        return cacheSchemesImp.putDistributed(key,value);
     }
 
     @GetMapping("/distributed/{key}")
     public String getDistributed(@PathVariable String key) {
-        return redisTemplate.opsForValue().get(key);
+        return cacheSchemesImp.getDistributed(key);
     }
 
 
