@@ -1,0 +1,39 @@
+server:
+  compression:
+    enabled: true
+  # Default port
+  port: 8080
+  # Enable graceful shutdown - Server will wait for active request to finish
+  shutdown: graceful
+  tomcat:
+    mbeanregistry:
+      enabled: true
+# Spring Configuration
+spring:
+  application:
+    name: redis-testcontainers
+  profiles:
+    active: local
+  cache:
+    type: caffeine
+# Swagger
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+# Redis Configuration
+redis:
+  config:
+    nodes:
+      - 127.0.0.1:7000
+      - 127.0.0.1:7001
+      - 127.0.0.1:7002
+    read-timeout: 5s
+    max-total-pool: 10
+    max-idle-pool: 5
+    min-idle-pool: 2
+    max-wait: 5s
+
+#configuring cafiene cache
+
